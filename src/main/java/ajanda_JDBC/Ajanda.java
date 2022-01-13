@@ -1,18 +1,28 @@
-package ajanda;
+package ajanda_JDBC;
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import techproed.jdbcOrnekler.SqlBaglan;
+
 public class Ajanda {
 
-
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		Data dataObj=new Data();
-		dataObj.sqlBaglan();
-		ajandaMenu();
+		Rehber rhb=new Rehber();
+		SqlBaglan sql=new SqlBaglan();
+		sql.sqlBagla();
+//		rhb.tabloEkle();
+//		sql.tabloSil("Rehber");
+//		sql.tabloInsert("Rehber", "Ali Can", "0555 55 55", "alican@email.com","Ankara");
+//		sql.tabloInsert("Rehber", "Ali Can", "0555 55 55", "alican@email.com","Ankara");
+		sql.tabloGoster("Rehber");
+		sql.degiskenIcerigiGuncelle("rehber", "adSoyad", "ali can", "Veli HAN");
+		System.out.println("==================");
+		sql.tabloGoster("Rehber");
+//		ajandaMenu();
 	}
 
-	public static void ajandaMenu() throws SQLException, ClassNotFoundException {
+	public static void ajandaMenu() {
 
 		if (Rehber.rehberListesi.isEmpty()) {
 
@@ -21,41 +31,24 @@ public class Ajanda {
 						Data.adres.get(i));
 				Rehber.rehberListesi.add(rehberobjesi);
 			}
-			
-			if(Etkinlik.etkinlikListesi.isEmpty()) {
-				for(int i=0;i<Data.etkinlikTarihleri.size();i++) {
-				Etkinlik etkObje=new Etkinlik(Data.etkinlikler.get(i), Data.etkinlikTarihleri.get(i),Data.saatler[i], Data.etkinlikKimIerle.get(i), Data.etkinlikNotlari.get(i));
-				Etkinlik.etkinlikListesi.add(etkObje);
-			}}
-//			(etkinlikAdi, etkinlikTarihi, etkinlikSaati, etkinlikKimIle, etkinlikNotu
 		}
+		
 		Etkinlik etkMenu = new Etkinlik();
 		Rehber rhbMenu = new Rehber();
 		
-//		dataObj.rehberTabloOlustur("Rehber");	
-//		dataObj.etkinlikTabloOlustur("Etkinlik");
-//			for(Rehber each:Rehber.rehberListesi) {
-//			dataObj.tabloyaVeriEkle("Rehber", each.getKisiAdSoyad(), each.getKisiTel(), each.getKisiEmail(),each.getKisiAdres());
-//		}
-//		dataObj.tabloGoster("Rehber");
-//		etkinlikAdi, etkinlikTarihi, etkinlikSaati, etkinlikKimIle, etkinlikNotu
-//		for(Etkinlik each:Etkinlik.etkinlikListesi){
-//			dataObj.tabloyaVeriEkle("Etkinlik", each.getEtkinlikAdi(),each.getEtkinlikTarihi(),String.valueOf(each.getEtkinlikSaati()),each.getEtkinlikKimIle(), each.getEtkinlikNotu());
-//		}
-//		dataObj.tabloGoster("Etkinlik");
 		Scanner scan = new Scanner(System.in);
 		System.out.println(
 				  "╔═══════════════════════╗\r\n"
-			   +"║    AJANDA MENUSU         ║\r\n"
-			  + "╚═══════════════════════╝\r\n"
+				+ "║    AJANDA MENUSU      ║\r\n"
+				+ "╚═══════════════════════╝\r\n"
 				+ "╔═══════════════════════╗\r\n"
-				+ "║ 1- Etkinlik Islemleri           ║\r\n"
+				+ "║ 1- Etkinlik Islemleri ║\r\n"
 				+ "╠═══════════════════════╣\r\n"
-				+ "║ 2- Rehber Islemleri           ║\r\n"
+				+ "║ 2- Rehber Islemleri   ║\r\n"
 				+ "╠═══════════════════════╣\r\n"
-				+ "║ 3- Randevu Durumu        ║\r\n"
+				+ "║ 3- Randevu Durumu     ║\r\n"
 				+ "╠═══════════════════════╣\r\n"
-				+ "║ 4- Cikis                             ║\r\n"
+				+ "║ 4- Cikis              ║\r\n"
 				+ "╚═══════════════════════╝\r\n"
 				+ "Lütfen yapmak istenilen işlem numarasını giriniz");
 		int secim = scan.nextInt();
@@ -79,7 +72,7 @@ public class Ajanda {
 
 			break;
 		case 4:
-			System.out.println("CIKMAK ISTEDIGINIZE EMIN MISINIZ? [E/H] ");
+			System.out.println("CIKMAK ISTEDIGINIZE EMINS MISINIZ? [E/H] ");
 			char cikis = scan.next().charAt(0);
 			if (cikis == 'e' || cikis == 'E') {
 				System.out.println(
@@ -103,7 +96,7 @@ public class Ajanda {
 		scan.close();
 	}
 
-	private static void randevuDurumu() throws SQLException, ClassNotFoundException {
+	private static void randevuDurumu() {
 		Scanner scan = new Scanner(System.in);
 		
 		Ayarlar.bildirimYaz("GENEL RANDEVU BILGILERI");		
@@ -111,10 +104,10 @@ public class Ajanda {
 
 			for (Rehber each : Rehber.rehberListesi) {
 
-				if (each.getKisiAdSoyad().equalsIgnoreCase(each1.getEtkinlikKimIle())) {
-					System.out.println("Randevuuz " + each1.getEtkinlikKimIle()+" ile "+ each1.getEtkinlikKimIle()+" tarihinde "
-					+each1.getEtkinlikKimIle()+" saat diliminde "+each1.getEtkinlikKimIle()+" etkinliği bulunuyor.\n"
-							+ each1.getEtkinlikKimIle()+" ile ilgili kişisel bilgiler aşağıda bulunmaktadır");				
+				if (each.kisiAdSoyad.equalsIgnoreCase(each1.etkinlikKimIle)) {
+					System.out.println("Randevuuz " + each1.etkinlikKimIle+" ile "+ each1.etkinlikTarihi+" tarihinde "
+					+each1.etkinlikSaati+" saat diliminde "+each1.etkinlikAdi+" etkinliği bulunuyor.\n"
+							+ each1.etkinlikKimIle+" ile ilgili kişisel bilgiler aşağıda bulunmaktadır");				
 				
 					System.out.println(each);
 					

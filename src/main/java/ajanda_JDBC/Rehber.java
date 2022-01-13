@@ -1,24 +1,24 @@
-package ajanda;
+package ajanda_JDBC;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Rehber {
-	 Data dataObj=new Data();
-	
-	private String kisiAdSoyad;
-	private String kisiTel;
-	private String kisiEmail;
-	private String kisiAdres;
-	
-	public static List<Rehber> rehberListesi = new ArrayList<>();
-	
-	public Rehber() {
-		
-	}
+import techproed.jdbcOrnekler.SqlBaglan;
 
+public class Rehber {
+	
+	String kisiAdSoyad;
+	String kisiTel;
+	String kisiEmail;
+	String kisiAdres;
+	
+	static List<Rehber> rehberListesi = new ArrayList<>();
+	SqlBaglan sql=new SqlBaglan();
+	
+	public Rehber() {	
+	}
 	public Rehber(String rhbAdSoyad, String rhbTel, String rhbEmail, String rhbAdres) {
 		super();
 		this.kisiAdSoyad = rhbAdSoyad;
@@ -26,53 +26,26 @@ public class Rehber {
 		this.kisiEmail = rhbEmail;
 		this.kisiAdres = rhbAdres;
 	}
+void tabloEkle() throws SQLException {
+	String degiskenler="(adSoyad VARCHAR(40), telefon VARCHAR(20), eMail VARCHAR(40), adres VARCHAR(40))";
+	sql.tabloOlustur("Rehber",degiskenler);	
+}
 
 
-	public String getKisiAdSoyad() {
-		return kisiAdSoyad;
-	}
-
-	public void setKisiAdSoyad(String kisiAdSoyad) {
-		this.kisiAdSoyad = kisiAdSoyad;
-	}
-
-	public String getKisiTel() {
-		return kisiTel;
-	}
-
-	public void setKisiTel(String kisiTel) {
-		this.kisiTel = kisiTel;
-	}
-
-	public String getKisiEmail() {
-		return kisiEmail;
-	}
-
-	public void setKisiEmail(String kisiEmail) {
-		this.kisiEmail = kisiEmail;
-	}
-
-	public String getKisiAdres() {
-		return kisiAdres;
-	}
-
-	public void setKisiAdres(String kisiAdres) {
-		this.kisiAdres = kisiAdres;
-	}
 
 	public void rehberMenu(){
 
 		Scanner scan = new Scanner(System.in);
 		System.out.println(
-				     "╔═════════════════════════╗\r\n"
-				  + "║  REHBER (KISI) MENUSU     ║\r\n"
-				  + "╠═════════════════════════╣\r\n"
-				  + "║ 1- KISI EKLE                         ║\r\n"
-				  + "║ 2- KISI SİL                            ║\r\n"
-				  + "║ 3- KISI DUZENLE                 ║\r\n"
-				  + "║ 4- KISI BILGILERI                 ║\r\n"
-				  + "║ 5- ANA MENUYE DON       ║\r\n"
-				  + "╚════════════════════════╝\r\n"
+				    "╔══════════════════════════╗\r\n"
+				  + "║  REHBER (KISI) MENUSU    ║\r\n"
+				  + "╠══════════════════════════╣\r\n"
+				  + "║ 1- KISI EKLE             ║\r\n"
+				  + "║ 2- KISI SİL              ║\r\n"
+				  + "║ 3- KISI DUZENLE          ║\r\n"
+				  + "║ 4- KISI BILGILERI        ║\r\n"
+				  + "║ 5- ANA MENUYE DON        ║\r\n"
+				  + "╚══════════════════════════╝\r\n"
 				+ "Lütfen yapmak istenilen işlem numarasını giriniz");
 		try {
 			int secim = scan.nextInt();
@@ -109,8 +82,8 @@ public class Rehber {
 	}
 
 
-	private void rehberKisiBilgileri() throws SQLException, ClassNotFoundException {
-		dataObj.tabloGoster("rehber");
+	private void rehberKisiBilgileri() {
+		
 		if (!rehberListesi.isEmpty()) {
 			for (int i = 0; i < rehberListesi.size(); i++) {
 				System.out.println((i + 1) + ". Kişi : " + rehberListesi.get(i).toString());
@@ -127,16 +100,16 @@ public class Rehber {
 	}
 
 
-	private void rehberDuzenleme() throws SQLException {
+	private void rehberDuzenleme() {
 		
 		if (!rehberListesi.isEmpty()) {
 			for (int i = 0; i < rehberListesi.size(); i++) {
 				System.out.println((i + 1) + ". Kişi : " + rehberListesi.get(i).toString());
 			}
-			dataObj.tabloGoster("Rehber");
+
 		try {
 			Scanner scan = new Scanner(System.in);
-			System.out.println("Lutfen duzenlemek istediginiz kisinin nosunu giriniz \nÇıkış için Sıfır (0) basınız");
+			System.out.println("Lutfen duzenlemek istediginiz etkinligin nosunu giriniz \nÇıkış için Sıfır (0) basınız");
 			int secim1 = scan.nextInt();
 
 			if (secim1 == 0) {
@@ -150,13 +123,13 @@ public class Rehber {
 
 			System.out.println(""
 					+ "╔══════════════════════════╗\r\n"
-					+ "║ REHBER DUZENLEME MENU ║\r\n"
+					+ "║ REHBER DUZENLEME MENUSU  ║\r\n"
 					+ "╠══════════════════════════╣\r\n" 
-					+ "║ 1- Kisi Adi Soyadı      			  ║\r\n"
-					+ "║ 2- Kisi Telefonu        			  ║\r\n" 
-					+ "║ 3- Kisi E-Mail Adresi  			  ║\r\n"
-					+ "║ 4- Posta Adresi       				  ║\r\n" 
-					+ "║ 5- Rehber Menusune Git   	  ║\r\n" 
+					+ "║ 1- Kisi Adi Soyadı       ║\r\n"
+					+ "║ 2- Kisi Telefonu         ║\r\n" 
+					+ "║ 3- Kisi E-Mail Adresi    ║\r\n"
+					+ "║ 4- Posta Adresi          ║\r\n" 
+					+ "║ 5- Rehber Menusune Git   ║\r\n" 
 					+ "╚══════════════════════════╝\r\n"
 					+ "Lutfen yapmak istenilen islem numarasini giriniz");
 
@@ -165,12 +138,9 @@ public class Rehber {
 			switch (secim) {
 			case 1:
 				System.out.println("Kisinin Yeni Adini Soyadini Girin");
-				String ad=scan.nextLine();
-				ad=scan.nextLine();
-				dataObj.degiskenIcerigiGuncelle("rehber", "adSoyad",  rehberListesi.get(secim1 - 1).kisiAdSoyad,ad) ;
-				rehberListesi.get(secim1 - 1).kisiAdSoyad = ad;
-				
-//				System.out.println(new String(new char[70]).replace("\0", "\r\n"));	//Ekranı temizleme
+				rehberListesi.get(secim1 - 1).kisiAdSoyad = scan.nextLine();
+				rehberListesi.get(secim1 - 1).kisiAdSoyad = scan.nextLine();
+				System.out.println(new String(new char[70]).replace("\0", "\r\n"));	//Ekranı temizleme
 				
 				Ayarlar.bildirimYaz("KISI DUZENLEMESI BASARILI YAPILMISTIR.");
 				
@@ -180,11 +150,8 @@ public class Rehber {
 
 			case 2:
 				System.out.println("Kisinin Yeni Telefonunu Girin");
-				String tel=scan.nextLine();
-				tel=scan.nextLine();
-				dataObj.degiskenIcerigiGuncelle("rehber", "kisiTel", rehberListesi.get(secim1 - 1).kisiTel, tel) ;
-				rehberListesi.get(secim1 - 1).kisiTel = tel;
-			
+				rehberListesi.get(secim1 - 1).kisiTel = scan.nextLine();
+				rehberListesi.get(secim1 - 1).kisiTel = scan.nextLine();
 				rehberDuzenleme();
 
 				break;
@@ -199,7 +166,7 @@ public class Rehber {
 					String TkrkisiEmail = scan.nextLine();
 					yeniKisiEmail = TkrkisiEmail;
 				}
-				dataObj.degiskenIcerigiGuncelle("rehber", "kisiEmail", rehberListesi.get(secim1 - 1).kisiEmail, yeniKisiEmail) ;
+				
 				rehberListesi.get(secim1 - 1).kisiEmail = yeniKisiEmail;
 				rehberListesi.get(secim1 - 1).kisiEmail = yeniKisiEmail;
 				rehberDuzenleme();
@@ -207,11 +174,8 @@ public class Rehber {
 
 			case 4:
 				System.out.println("Kisinin Yeni Adres Bilgilerini girin");
-				String adres=scan.nextLine();
-				adres=scan.nextLine();
-				dataObj.degiskenIcerigiGuncelle("rehber", "kisiAdres", rehberListesi.get(secim1 - 1).kisiAdres, adres) ;
-				rehberListesi.get(secim1 - 1).kisiAdres = adres;
-			
+				rehberListesi.get(secim1 - 1).kisiAdres = scan.nextLine();
+				rehberListesi.get(secim1 - 1).kisiAdres = scan.nextLine();
 				rehberDuzenleme();
 
 				break;
@@ -243,13 +207,13 @@ public class Rehber {
 	}
 
 
-	public void rehberKisiEkle() throws SQLException {
+	public void rehberKisiEkle() {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Ad Soyadı giriniz ");
 		String kisiAdSoyad = scan.nextLine();
 
 		if (Data.adSoyad.contains(kisiAdSoyad)) {
-			System.out.println("Girilen Ad Soyad kayıtlı kişi var. Lütfen başka bir isim ile kayıt ekleyiniz.");
+			System.out.println("Girilen Ad Soyad kayıtlı kişi var. Lütfen başka bir isim ile kayıt eleyiniz.");
 			rehberKisiEkle();
 		}
 
@@ -272,14 +236,13 @@ public class Rehber {
 		String kisiAdres = scan.nextLine();
 
 		Rehber rehberObj = new Rehber(kisiAdSoyad, kisiTelefon, kisiEmail, kisiAdres);
-		dataObj.tabloyaVeriEkle("rehber",kisiAdSoyad, kisiTelefon, kisiEmail, kisiAdres);
-		
+
 		rehberListesi.add(rehberObj);
 
-//		System.out.println(new String(new char[70]).replace("\0", "\r\n"));
+		System.out.println(new String(new char[70]).replace("\0", "\r\n"));
 		
 		Ayarlar.bildirimYaz("KISI REHBERE BASARI ILE EKLENMISTIR");
-		dataObj.tabloGoster("Rehber");
+
 		for (int i = 0; i < rehberListesi.size(); i++) {
 
 			System.out.println((i + 1) + ". " + rehberListesi.get(i).toString());
@@ -291,39 +254,37 @@ public class Rehber {
 	}
 
 
-	private void rehberKisiSil() throws SQLException {
+	private void rehberKisiSil() {
 
 		if (!rehberListesi.isEmpty()) {
 			for (int i = 0; i < rehberListesi.size(); i++) {
 				System.out.println((i + 1) + ". Kişi : " + rehberListesi.get(i).toString());
 			}
-			dataObj.tabloGoster("Rehber");
 			Scanner scan = new Scanner(System.in);
-			System.out.println("Rehberden Silmek istediginiz kisinin adini giriniz ");
+			System.out.println("Rehberden Silmek istediginiz kisinin Numarasını giriniz ");
 
 			String kisiAdiSec=scan.nextLine();
-			dataObj.degiskenYazdir("rehber", "adSoyad", kisiAdiSec);
-			dataObj.degiskenSil("Rehber", "adSoyad", kisiAdiSec);
-			rehberMenu();
-			for (Rehber each : rehberListesi) {			
+			
+			for (Rehber each : rehberListesi) {
+				
 				if (each.kisiAdSoyad.equalsIgnoreCase(kisiAdiSec)) {
 					System.out.println(each);
 					rehberListesi.remove(each);
-					Ayarlar.bildirimYaz("KISI REHBERDEN BASARILI OLARAK SILINDI");
+					Ayarlar.bildirimYaz("KISI REHBERDEN BASARILI OLARA KSILINDI");
 					rehberMenu();
 				}
 				
 		}
 			
-//			int secim = Integer.valueOf(kisiAdiSec);
-//			if (secim < rehberListesi.size() || secim > 0) {
-//				System.out.println(rehberListesi.remove(secim - 1).toString() + "\n " + secim
-//						+ ". numarali Kisi Basari ile silinmistir.");
-//				for (int i = 0; i < rehberListesi.size(); i++) {
-//					System.out.println((i + 1) + ". Kişi : " + rehberListesi.get(i).toString());
-//				}
-//				rehberMenu();
-//			}
+			int secim = Integer.valueOf(kisiAdiSec);
+			if (secim < rehberListesi.size() || secim > 0) {
+				System.out.println(rehberListesi.remove(secim - 1).toString() + "\n " + secim
+						+ ". numarali Kisi Basari ile silinmistir.");
+				for (int i = 0; i < rehberListesi.size(); i++) {
+					System.out.println((i + 1) + ". Kişi : " + rehberListesi.get(i).toString());
+				}
+				rehberMenu();
+			}
 		} else {
 			Ayarlar.bildirimYaz("REHBERDE KAYITLI  KISI YOK");
 
@@ -334,9 +295,11 @@ public class Rehber {
 
 	@Override
 	public String toString() {
-		return   "\n Adı Soyadı    : " + kisiAdSoyad+ " ║ "
-				+" Telefonu      : " + kisiTel + " ║ "
-				+" E-mail Adresi : " + kisiEmail + " ║ "
-				+" Adresi        : " + kisiAdres + " ║ ";
+		return   "\n╔════════════════════════════════════════╗" 
+				+"\n Adı Soyadı    : " + kisiAdSoyad+ "\n"
+				+" Telefonu      : " + kisiTel + "\n"
+				+" E-mail Adresi : " + kisiEmail + "\n"
+				+" Adresi        : " + kisiAdres + "\n"
+				+"╚════════════════════════════════════════╝";
 	}
 }
